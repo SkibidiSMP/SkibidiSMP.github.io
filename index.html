@@ -34,22 +34,44 @@
             <ul>
                 <li>NO BEGGING</li>
                 <li>No hacking or exploiting</li>
-                <li>Keep chat friendly and respectful(exept nigga, nigger, fuck, shit, suck my dick...)</li>
+                <li>Keep chat friendly and respectful (except nigga, nigger, fuck, shit, suck my dick...)</li>
                 <li>Follow staff instructions</li>
                 <li>NO SPAMING</li>
             </ul>
         </section>
 
         <section>
-            <h2>get ready for season 3</h2>
-           <video controls width="100%" poster="season3.png">
-            <source src="SEASON3.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+            <h2>SEASON3</h2>
+            <h3 id="countdown"></h3>
+            <video controls width="100%" poster="season3.png">
+                <source src="SEASON3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </section>
     </main>
+    <script>
+        function updateCountdown() {
+            const launchDate = new Date("March 21, 2025 17:00:00").getTime();
+            const now = new Date().getTime();
+            const timeLeft = launchDate - now;
 
-    <footer>
+            if (timeLeft <= 0) {
+                document.getElementById("countdown").innerHTML = "SEASON 3 IS LIVE!";
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `Season 3 starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+      <footer>
         <p>&copy; 2025 SKIBIDI SMP. All rights reserved.</p>
     </footer>
 </body>
