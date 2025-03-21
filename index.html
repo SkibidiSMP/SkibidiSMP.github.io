@@ -305,7 +305,11 @@
         </section>
 
         <section>
-            <h2>JOIN SEASON 3 NOW </h2>
+            <h2>Get ready for Season 3</h2>
+            <div class="video-container">
+                <video controls width="750" poster="season3.png">
+                    <source src="SEASON3.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
                 </video>
             </div>
         </section>
@@ -314,95 +318,147 @@
         <section class="rules">
             <h2>Server Rules</h2>
             <ol>
-                <li>No Spamming.</li>
-                <li>No Advertising.</li>
-                <li>No Constant Cursing.</li>
-                <li>No Banned Items .</li>
-                <li>No Asking for OP, Ranks, or Items.</li>
-                <li>Use Common Sense.</li>
-                <li>No Mods/Hacks.</li>
-                <li>No Full Caps Messages.</li>
+                <li>No griefing or stealing.</li>
+                <li>Respect other players.</li>
+                <li>No cheating or exploiting bugs.</li>
+                <li>Follow the community guidelines.</li>
             </ol>
         </section>
     </main>
 
     <script>
-        // Functions for handling login/logout, menu toggles, and submitting forms
-        let isLoggedIn = false;
-        let userName = "";
-
         function togglePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            const overlay = document.getElementById("overlay");
-            popup.style.display = (popup.style.display === "block") ? "none" : "block";
-            overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
-        }
-
-        function login() {
-            const username = document.getElementById("loginUsername").value;
-            const password = document.getElementById("loginPassword").value;
-
-            if (username && password) {
-                userName = username;
-                isLoggedIn = true;
-                document.getElementById("loginMenu").style.display = "none";
-                document.getElementById("loggedInMenu").style.display = "block";
-                document.getElementById("profileName").textContent = `Hello, ${userName}`;
-                document.getElementById("profileName").style.display = "block";
-                togglePopup('loginPopup');
+            var popup = document.getElementById(popupId);
+            var overlay = document.getElementById('overlay');
+            if (popup.style.display === "block") {
+                popup.style.display = "none";
+                overlay.style.display = "none";
+            } else {
+                popup.style.display = "block";
+                overlay.style.display = "block";
             }
         }
 
-        function register() {
-            const username = document.getElementById("registerUsername").value;
-            const password = document.getElementById("registerPassword").value;
-
+        function login() {
+            var username = document.getElementById('loginUsername').value;
+            var password = document.getElementById('loginPassword').value;
             if (username && password) {
-                // Register logic
-                alert("Registered successfully!");
-                togglePopup('registerPopup');
+                document.getElementById('profileName').textContent = 'Logged in as: ' + username;
+                document.getElementById('profileName').style.display = 'block';
+                togglePopup('loginPopup');
+                document.getElementById('loginMenu').style.display = 'none';
+                document.getElementById('loggedInMenu').style.display = 'block';
             }
         }
 
         function logout() {
-            isLoggedIn = false;
-            userName = "";
-            document.getElementById("loginMenu").style.display = "block";
-            document.getElementById("loggedInMenu").style.display = "none";
-            document.getElementById("profileName").style.display = "none";
+            document.getElementById('profileName').style.display = 'none';
+            document.getElementById('loginMenu').style.display = 'block';
+            document.getElementById('loggedInMenu').style.display = 'none';
+        }
+
+        function register() {
+            var username = document.getElementById('registerUsername').value;
+            var password = document.getElementById('registerPassword').value;
+            if (username && password) {
+                alert('Registration successful!');
+                togglePopup('registerPopup');
+            }
         }
 
         function postVideo() {
-            const title = document.getElementById("videoTitle").value;
-            const url = document.getElementById("videoUrl").value;
-            if (title && url) {
-                const videoList = document.getElementById("uploadedVideos");
-                const videoItem = document.createElement("div");
-                videoItem.classList.add("video-item");
-                videoItem.innerHTML = `<h3>${title}</h3><video controls><source src="${url}" type="video/mp4"></video>`;
-                videoList.appendChild(videoItem);
-            }
+            var title = document.getElementById('videoTitle').value;
+            var url = document.getElementById('videoUrl').value;
+            var videoContainer = document.getElementById('uploadedVideos');
+            var videoItem = document.createElement('div');
+            videoItem.classList.add('video-item');
+            videoItem.innerHTML = `
+                <h3>${title}</h3>
+                <video controls>
+                    <source src="${url}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            `;
+            videoContainer.appendChild(videoItem);
+            togglePopup('videosPopup');
         }
 
         function submitReport() {
-            const player = document.getElementById("reportPlayer").value;
-            const reason = document.getElementById("reportReason").value;
-            if (player && reason) {
-                // Submit report
-                alert("Report submitted!");
-                togglePopup('reportPopup');
-            }
+            var player = document.getElementById('reportPlayer').value;
+            var reason = document.getElementById('reportReason').value;
+            var message = `🚨 New Report! 🚨\n👤 Player: ${player}\n📝 Reason: ${reason}`;
+
+            fetch('https://discord.com/api/webhooks/1352628391337263175/ts5K-b9ww1mqfVxN3UlFY0LLeKubiLvtzYj4DkbLq2ZmRBpGNhLUbKrtg3sq5tM0WVVT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: message
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Report submitted successfully!');
+                    togglePopup('reportPopup');
+                } else {
+                    alert('Failed to submit report!');
+                }
+            }).catch(error => {
+                alert('Error submitting report!');
+            });
         }
 
         function submitUnbanRequest() {
-            const player = document.getElementById("unbanPlayer").value;
-            const reason = document.getElementById("unbanReason").value;
-            if (player && reason) {
-                // Submit unban request
-                alert("Unban request submitted!");
-                togglePopup('unbanPopup');
-            }
+            var player = document.getElementById('unbanPlayer').value;
+            var reason = document.getElementById('unbanReason').value;
+
+            var message = `🚨 Unban Request 🚨\n👤 Player: ${player}\n📝 Reason: ${reason}`;
+
+            fetch('https://discord.com/api/webhooks/1352628391337263175/ts5K-b9ww1mqfVxN3UlFY0LLeKubiLvtzYj4DkbLq2ZmRBpGNhLUbKrtg3sq5tM0WVVT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: message
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Unban request submitted successfully!');
+                    togglePopup('unbanPopup');
+                } else {
+                    alert('Failed to submit unban request!');
+                }
+            }).catch(error => {
+                alert('Error submitting unban request!');
+            });
         }
+
+        // Countdown Function
+        function startCountdown() {
+            var countDate = new Date("March 30, 2025 00:00:00").getTime();
+            var countdownElement = document.getElementById("countdown");
+
+            setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countDate - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    countdownElement.innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+
+        // Start the countdown
+        startCountdown();
     </script>
 
 </body>
