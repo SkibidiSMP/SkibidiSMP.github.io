@@ -1,82 +1,112 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #1e1e2e;
-    color: #ffffff;
-    text-align: center;
+/* General Reset */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/* Header */
-header {
-    background-color: #6200ea;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2em;
-}
-
-header p {
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-/* Main Content */
-main {
-    padding: 20px;
-}
-
-section {
-    background-color: #2a2a3a;
-    padding: 20px;
-    margin: 20px auto;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Lists */
-ol, ul {
-    text-align: left;
-    margin: 10px auto;
-    padding-left: 20px;
-}
-
-li {
-    margin: 5px 0;
-}
-
-/* Video */
-video {
-    width: 100%;
-    max-width: 600px;
-    border-radius: 10px;
-}
-
-/* Footer */
-footer {
-    background-color: #6200ea;
+/* Hamburger Menu */
+.hamburger-menu {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
     padding: 10px;
-    font-size: 0.9em;
-    margin-top: 20px;
 }
 
-/* Responsive Fixes */
-@media (max-width: 600px) {
-    header h1 {
-        font-size: 1.8em;
-    }
+.hamburger-icon {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
-    header p {
-        font-size: 1em;
-    }
+.line {
+    width: 25px;
+    height: 3px;
+    background-color: black;
+}
 
-    section {
-        padding: 15px;
-    }
+/* Menu */
+.menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #fff;
+    width: 200px;
+    border: 1px solid #ccc;
+    display: none;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.menu ul li {
+    margin-bottom: 10px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+}
+
+/* Popup Styles */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 2px solid #ccc;
+    display: none;
+    width: 300px;
+    z-index: 1000;
+}
+
+.popup button {
+    display: block;
+    margin: 10px auto;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.popup h2 {
+    margin-bottom: 15px;
+}
+
+.popup input, .popup textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+}
+
+.popup input[type="text"], .popup textarea {
+    border-radius: 5px;
+}
+
+textarea {
+    height: 100px;
+}
+
+/* Show Menu */
+.menu.show {
+    display: block;
+}
+
+/* Section Styles */
+section {
+    padding: 50px;
+    text-align: center;
 }
