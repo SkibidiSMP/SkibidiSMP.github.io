@@ -294,7 +294,12 @@
     </header>
 
     <main>
-        <!-- Rules Section -->
+        <section>
+            <h2>Server Information</h2>
+            <p>Join our Minecraft server at: <strong>SKIBIDI_SMP3.aternos.me:21750</strong></p>
+        </section>
+
+        <!-- Rules Section (Moved Above the Video) -->
         <section class="rules">
             <h2>Server Rules</h2>
             <ol>
@@ -314,11 +319,6 @@
         </section>
 
         <section>
-            <h2>Server Information</h2>
-            <p>Join our Minecraft server at: <strong>SKIBIDI_SMP3.aternos.me:21750</strong></p>
-        </section>
-
-        <section>
             <h2>SEASON 3 Countdown</h2>
             <div class="countdown" id="countdown"></div>
         </section>
@@ -332,6 +332,7 @@
                 </video>
             </div>
         </section>
+
     </main>
 
     <footer>
@@ -339,8 +340,37 @@
     </footer>
 
     <script>
-        // (JavaScript code remains unchanged)
-    </script>
-</body>
-</html>
+        // Check if user is already logged in
+        const currentUser = localStorage.getItem("currentUser");
+        if (currentUser) {
+            showLoggedInMenu(currentUser);
+        }
 
+        // Load uploaded videos from localStorage
+        let uploadedVideos = JSON.parse(localStorage.getItem("uploadedVideos")) || [];
+        renderUploadedVideos();
+
+        // Toggle Popup Function
+        function togglePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            const overlay = document.getElementById("overlay");
+            if (popup.style.display === "block") {
+                popup.style.display = "none";
+                overlay.style.display = "none";
+            } else {
+                popup.style.display = "block";
+                overlay.style.display = "block";
+            }
+            if (popupId === "videosPopup") {
+                renderUploadedVideos();
+            }
+        }
+
+        // Login Function
+        function login() {
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+            if (username && password) {
+                const storedPassword = localStorage.getItem(username);
+                if (storedPassword === password) {
+                    localStorage.setItem("
