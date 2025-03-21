@@ -12,8 +12,56 @@
     <meta property="og:image" content="https://skibidismp.github.io/season3.png">
     <meta property="og:url" content="https://skibidismp.github.io/">
     <meta property="og:type" content="website">
+    
+    <style>
+        .menu {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #6200ea;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 10px;
+            background: #2a2a3a;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .dropdown a {
+            display: block;
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+        }
+        .dropdown a:hover {
+            background: #3b3b4f;
+        }
+        .countdown {
+            font-size: 2em;
+            margin: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+    <div class="menu" onclick="toggleMenu()">☰</div>
+    <div class="dropdown" id="dropdownMenu">
+        <a href="#videos">Videos</a>
+        <a href="#report">Report</a>
+        <a href="#settings">Settings</a>
+        <a href="#login">Login</a>
+        <a href="#verified">Verified</a>
+        <a href="#unban">Unban Request</a>
+    </div>
+
     <header>
         <h1>Welcome to SKIBIDI SMP</h1>
         <p>MAXIMA UZDARYTA</p>
@@ -26,61 +74,70 @@
         </section>
 
         <section>
-            <h2>How to Join</h2>
-            <ol>
-                <li>Open Minecraft</li>
-                <li>Go to Multiplayer</li>
-                <li>Click "Add Server"</li>
-                <li>Enter the IP: <strong>SKIBIDI_SMP.aternos.me</strong></li>
-                <li>Join and have fun!</li>
-            </ol>
+            <h2>SEASON 3 Countdown</h2>
+            <div class="countdown" id="countdown"></div>
         </section>
 
         <section>
-            <h2>Community Rules</h2>
-            <ul>
-                <li>NO BEGGING</li>
-                <li>No hacking or exploiting</li>
-                <li>Keep chat friendly and respectful (except nigga, nigger, fuck, shit, suck my dick...)</li>
-                <li>Follow staff instructions</li>
-                <li>NO SPAMING</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>SEASON3</h2>
-            <h3 id="countdown"></h3>
+            <h2>Get ready for Season 3</h2>
             <video controls width="100%" poster="season3.png">
                 <source src="SEASON3.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </section>
-    </main>
-    <script>
-        function updateCountdown() {
-            const launchDate = new Date("March 21, 2025 17:00:00").getTime();
-            const now = new Date().getTime();
-            const timeLeft = launchDate - now;
 
-            if (timeLeft <= 0) {
-                document.getElementById("countdown").innerHTML = "SEASON 3 IS LIVE!";
-                return;
-            }
+        <section id="report">
+            <h2>Report a Player</h2>
+            <p>Report a player for breaking the rules.</p>
+            <form action="https://discord.com/api/webhooks/1352628391337263175/ts5K-b9ww1mqfVxN3UlFY0LLeKubiLvtzYj4DkbLq2ZmRBpGNhLUbKrtg3sq5tM0WVVT" method="post">
+                <label for="player">Select Player:</label>
+                <select id="player" name="player">
+                    <option value="geimer126">geimer126</option>
+                    <option value="Volidolis">Volidolis</option>
+                    <option value="Luntikx">Luntikx</option>
+                    <option value="v1xmi">v1xmi</option>
+                    <option value="zubzikas">zubzikas</option>
+                    <option value="hiscookie">hiscookie</option>
+                    <option value="kajuksas69">kajuksas69</option>
+                    <option value="Glyte222">Glyte222</option>
+                    <option value="giedre666">giedre666</option>
+                    <option value="Jemas123x">Jemas123x</option>
+                    <option value="Le_ziurke7">Le_ziurke7</option>
+                </select>
+                <button type="submit">Report</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SKIBIDI SMP. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("dropdownMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+
+        function updateCountdown() {
+            const eventDate = new Date("March 21, 2025 17:00:00").getTime();
+            const now = new Date().getTime();
+            const timeLeft = eventDate - now;
 
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            document.getElementById("countdown").innerHTML = `Season 3 starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (timeLeft < 0) {
+                document.getElementById("countdown").innerHTML = "SEASON 3 HAS BEGUN!";
+            }
         }
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
     </script>
-    
-    <footer>
-        <p>&copy; 2025 SKIBIDI SMP. All rights reserved.</p>
-    </footer>
 </body>
 </html>
