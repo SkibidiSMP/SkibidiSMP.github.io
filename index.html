@@ -79,22 +79,17 @@
             background: #50506f;
         }
 
-        /* Report Form Styles */
+        /* Login/Register Form Styles */
         form {
             display: flex;
             flex-direction: column;
         }
 
-        input, textarea {
+        input, select {
             margin-bottom: 10px;
             padding: 8px;
             border-radius: 5px;
             border: 1px solid #ddd;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
         }
 
         button {
@@ -116,10 +111,10 @@
     <div id="popupMenu" class="popup">
         <button class="close-btn" onclick="togglePopup()">X</button>
         <h2>Menu</h2>
-        <a href="#videos">Videos</a>
+        <a href="#" onclick="toggleLoginPopup()">Login</a>
+        <a href="#" onclick="toggleRegisterPopup()">Register</a>
         <a href="#" onclick="toggleReportPopup()">Report</a>
         <a href="#settings">Settings</a>
-        <a href="#login">Login</a>
         <a href="#unban">Unban Request</a>
     </div>
 
@@ -128,8 +123,19 @@
         <button class="close-btn" onclick="togglePopup('reportPopup')">X</button>
         <h2>Report a Player</h2>
         <form id="reportForm" onsubmit="submitReport(event)">
-            <label for="playerName">Player's Name:</label>
-            <input type="text" id="playerName" name="playerName" required>
+            <label for="playerName">Choose Player:</label>
+            <select id="playerName" name="playerName" required>
+                <option value="geimer126">geimer126</option>
+                <option value="Volidolis">Volidolis</option>
+                <option value="Luntikx">Luntikx</option>
+                <option value="v1xmi">v1xmi</option>
+                <option value="zubzikas">zubzikas</option>
+                <option value="hiscookie">hiscookie</option>
+                <option value="kajuksas69">kajuksas69</option>
+                <option value="Glyte222">Glyte222</option>
+                <option value="Jemas123x">Jemas123x</option>
+                <option value="Le_ziurke7">Le_ziurke7</option>
+            </select>
             
             <label for="reportReason">Reason:</label>
             <textarea id="reportReason" name="reportReason" required></textarea>
@@ -173,13 +179,8 @@
             popup.style.display = (popup.style.display === "block") ? "none" : "block";
         }
 
-        function toggleReportPopup() {
-            togglePopup('reportPopup');
-        }
-
         function submitReport(event) {
-            event.preventDefault(); // Prevent form submission
-            
+            event.preventDefault();
             const player = document.getElementById('playerName').value;
             const reason = document.getElementById('reportReason').value;
 
