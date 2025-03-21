@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SKIBIDI SMP</title>
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #1e1e2e;
@@ -15,7 +14,22 @@
             padding: 0;
         }
 
-        /* Popup Styles */
+        header {
+            padding: 20px;
+            background: #6200ea;
+            color: white;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 3rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
         .popup {
             display: none;
             position: fixed;
@@ -58,44 +72,6 @@
             background: #7c4dff;
         }
 
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        /* Menu Button */
-        .menu {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #6200ea;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Profile Name */
-        .profile-name {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #6200ea;
-            padding: 10px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Uploaded Videos */
         .uploaded-videos {
             display: flex;
             flex-direction: column;
@@ -123,7 +99,6 @@
             margin: 10px 0;
         }
 
-        /* Rules Section */
         .rules {
             margin: 20px auto;
             padding: 20px;
@@ -145,125 +120,54 @@
             margin: 10px 0;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .uploaded-videos .video-item {
-                width: 100%;
-                max-width: 100%;
-            }
-
-            .rules {
-                padding: 15px;
-            }
-
-            .menu {
-                top: 5px;
-                left: 5px;
-                padding: 8px;
-            }
-
-            .profile-name {
-                top: 5px;
-                right: 5px;
-                padding: 8px;
-            }
+        .container {
+            width: 80%;
+            margin: 0 auto;
         }
 
-        @media (max-width: 480px) {
-            .rules ol {
-                padding-left: 15px;
-            }
+        .form-container {
+            margin: 20px auto;
+            padding: 20px;
+            background: #2a2a3a;
+            border-radius: 10px;
+            max-width: 800px;
+        }
 
-            .rules ol li {
-                font-size: 0.9em;
-            }
+        .form-container input, .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .form-container button {
+            background: #6200ea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background: #7c4dff;
         }
     </style>
 </head>
 <body>
-
-    <!-- Hamburger Menu Button -->
-    <div class="menu" onclick="togglePopup('menuPopup')">☰</div>
-
-    <!-- Profile Name (Shows when logged in) -->
-    <div id="profileName" class="profile-name" style="display: none;"></div>
-
-    <!-- Menu Popup -->
-    <div id="menuPopup" class="popup">
-        <button onclick="togglePopup('menuPopup')">X</button>
-        <h2>Menu</h2>
-        <div id="loginMenu">
-            <button onclick="togglePopup('loginPopup')">Login</button>
-            <button onclick="togglePopup('registerPopup')">Register</button>
-        </div>
-        <div id="loggedInMenu" style="display: none;">
-            <button onclick="togglePopup('videosPopup')">Videos</button>
-            <button onclick="togglePopup('reportPopup')">Report</button>
-            <button onclick="togglePopup('unbanPopup')">Unban Request</button>
-            <button onclick="logout()">Logout</button>
-        </div>
-    </div>
-
-    <!-- Login Popup -->
-    <div id="loginPopup" class="popup">
-        <button onclick="togglePopup('loginPopup')">X</button>
-        <h2>Login</h2>
-        <input type="text" placeholder="Username" id="loginUsername">
-        <input type="password" placeholder="Password" id="loginPassword">
-        <button onclick="login()">Login</button>
-    </div>
-
-    <!-- Register Popup -->
-    <div id="registerPopup" class="popup">
-        <button onclick="togglePopup('registerPopup')">X</button>
-        <h2>Register</h2>
-        <input type="text" placeholder="Username" id="registerUsername">
-        <input type="password" placeholder="Password" id="registerPassword">
-        <button onclick="register()">Register</button>
-    </div>
-
-    <!-- Videos Popup -->
-    <div id="videosPopup" class="popup">
-        <button onclick="togglePopup('videosPopup')">X</button>
-        <h2>Upload and Share a Video</h2>
-        <input type="file" id="videoFile" accept="video/*">
-        <button onclick="uploadVideo()">Upload Video</button>
-        <div class="uploaded-videos" id="uploadedVideos"></div>
-    </div>
-
-    <!-- Report Popup -->
-    <div id="reportPopup" class="popup">
-        <button onclick="togglePopup('reportPopup')">X</button>
-        <h2>Report</h2>
-        <input type="text" placeholder="Player Name" id="reportPlayer">
-        <input type="text" placeholder="Reason" id="reportReason">
-        <button onclick="submitReport()">Submit</button>
-    </div>
-
-    <!-- Unban Popup -->
-    <div id="unbanPopup" class="popup">
-        <button onclick="togglePopup('unbanPopup')">X</button>
-        <h2>Unban Request</h2>
-        <input type="text" placeholder="Player Name" id="unbanPlayer">
-        <textarea placeholder="Why should you be unbanned?" id="unbanReason"></textarea>
-        <button onclick="submitUnbanRequest()">Submit</button>
-    </div>
-
-    <!-- Overlay -->
-    <div id="overlay" class="overlay"></div>
 
     <header>
         <h1>Welcome to SKIBIDI SMP</h1>
         <p>MAXIMA UZDARYTA</p>
     </header>
 
-    <main>
+    <div class="container">
         <section>
             <h2>Server Information</h2>
             <p>Join our Minecraft server at: <strong>SKIBIDI_SMP3.aternos.me:21750</strong></p>
         </section>
 
-        <!-- Rules Section -->
         <section class="rules">
             <h2>Server Rules</h2>
             <ol>
@@ -276,50 +180,50 @@
                 <li>Keep your builds within the allowed areas.</li>
                 <li>No hacking or modifying the game client.</li>
                 <li>Don’t abuse server commands.</li>
+                <li>Keep the chat family-friendly.</li>
             </ol>
         </section>
-    </main>
+
+        <button onclick="togglePopup('videoPopup')">Upload a Video</button>
+
+        <div class="popup" id="videoPopup">
+            <button onclick="togglePopup('videoPopup')">X</button>
+            <h2>Upload and Share a Video</h2>
+            <input type="file" id="videoFile" accept="video/*">
+            <button onclick="uploadVideo()">Upload Video</button>
+            <div class="uploaded-videos" id="uploadedVideos"></div>
+        </div>
+
+        <section id="uploadedVideosSection">
+            <h2>Uploaded Videos</h2>
+            <div class="uploaded-videos" id="uploadedVideos"></div>
+        </section>
+
+        <section class="form-container">
+            <h2>Report a Player</h2>
+            <textarea id="reportText" placeholder="Enter the report details..."></textarea>
+            <button onclick="submitReport()">Submit Report</button>
+        </section>
+
+        <section class="form-container">
+            <h2>Unban Request</h2>
+            <textarea id="unbanText" placeholder="Enter your unban request details..."></textarea>
+            <button onclick="submitUnbanRequest()">Submit Unban Request</button>
+        </section>
+    </div>
 
     <script>
+        // Toggle the popup for video upload
         function togglePopup(popupId) {
             var popup = document.getElementById(popupId);
-            var overlay = document.getElementById('overlay');
             if (popup.style.display === "block") {
                 popup.style.display = "none";
-                overlay.style.display = "none";
             } else {
                 popup.style.display = "block";
-                overlay.style.display = "block";
             }
         }
 
-        function login() {
-            var username = document.getElementById('loginUsername').value;
-            var password = document.getElementById('loginPassword').value;
-            if (username && password) {
-                document.getElementById('profileName').textContent = 'Logged in as: ' + username;
-                document.getElementById('profileName').style.display = 'block';
-                togglePopup('loginPopup');
-                document.getElementById('loginMenu').style.display = 'none';
-                document.getElementById('loggedInMenu').style.display = 'block';
-            }
-        }
-
-        function logout() {
-            document.getElementById('profileName').style.display = 'none';
-            document.getElementById('loginMenu').style.display = 'block';
-            document.getElementById('loggedInMenu').style.display = 'none';
-        }
-
-        function register() {
-            var username = document.getElementById('registerUsername').value;
-            var password = document.getElementById('registerPassword').value;
-            if (username && password) {
-                alert('Registration successful!');
-                togglePopup('registerPopup');
-            }
-        }
-
+        // Handle video upload and display
         function uploadVideo() {
             var videoFile = document.getElementById('videoFile').files[0];
             if (videoFile) {
@@ -335,60 +239,65 @@
                     </video>
                 `;
                 videoContainer.appendChild(videoItem);
-                togglePopup('videosPopup');
+                togglePopup('videoPopup');
             } else {
                 alert('Please select a video file.');
             }
         }
 
+        // Submit a report
         function submitReport() {
-            var player = document.getElementById('reportPlayer').value;
-            var reason = document.getElementById('reportReason').value;
-            var message = `🚨 New Report! 🚨\n👤 Player: ${player}\n📝 Reason: ${reason}`;
+            var reportText = document.getElementById('reportText').value;
+            if (reportText.trim() === '') {
+                alert('Please enter the details for the report.');
+                return;
+            }
+
+            var reportData = {
+                content: `🚨 New Report! 🚨\n👤 Player: <PlayerName>\n📝 Reason: ${reportText}`
+            };
 
             fetch('https://discord.com/api/webhooks/1352628391337263175/ts5K-b9ww1mqfVxN3UlFY0LLeKubiLvtzYj4DkbLq2ZmRBpGNhLUbKrtg3sq5tM0WVVT', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    content: message
-                })
-            }).then(response => {
-                if (response.ok) {
-                    alert('Report submitted successfully!');
-                    togglePopup('reportPopup');
-                } else {
-                    alert('Failed to submit report!');
-                }
-            }).catch(error => {
-                alert('Error submitting report!');
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reportData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Report submitted successfully!');
+                document.getElementById('reportText').value = ''; // Clear the report form
+            })
+            .catch(error => {
+                console.error('Error submitting report:', error);
+                alert('Failed to submit report. Please try again.');
             });
         }
 
+        // Submit an unban request
         function submitUnbanRequest() {
-            var player = document.getElementById('unbanPlayer').value;
-            var reason = document.getElementById('unbanReason').value;
+            var unbanText = document.getElementById('unbanText').value;
+            if (unbanText.trim() === '') {
+                alert('Please enter the details for the unban request.');
+                return;
+            }
 
-            var message = `🚨 Unban Request 🚨\n👤 Player: ${player}\n📝 Reason: ${reason}`;
+            var unbanData = {
+                content: `🚨 Unban Request! 🚨\n👤 Player: <PlayerName>\n📝 Reason: ${unbanText}`
+            };
 
             fetch('https://discord.com/api/webhooks/1352628391337263175/ts5K-b9ww1mqfVxN3UlFY0LLeKubiLvtzYj4DkbLq2ZmRBpGNhLUbKrtg3sq5tM0WVVT', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    content: message
-                })
-            }).then(response => {
-                if (response.ok) {
-                    alert('Unban request submitted successfully!');
-                    togglePopup('unbanPopup');
-                } else {
-                    alert('Failed to submit unban request!');
-                }
-            }).catch(error => {
-                alert('Error submitting unban request!');
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(unbanData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Unban request submitted successfully!');
+                document.getElementById('unbanText').value = ''; // Clear the unban form
+            })
+            .catch(error => {
+                console.error('Error submitting unban request:', error);
+                alert('Failed to submit unban request. Please try again.');
             });
         }
     </script>
