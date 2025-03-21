@@ -3,262 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKIBIDI SMP</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #2C2F44;
-            color: #F3F4F7;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-
-        h1, h2, h3 {
-            color: #FFF;
-        }
-
-        /* Header */
-        header {
-            background-color: #6200ea;
-            padding: 20px 0;
-            margin-bottom: 30px;
-        }
-
-        header h1 {
-            font-size: 3rem;
-            letter-spacing: 2px;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 5px 0;
-        }
-
-        /* Main Section */
-        main {
-            padding: 20px;
-        }
-
-        .rules {
-            background-color: #3b3b5c;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 800px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .rules h2 {
-            margin-bottom: 10px;
-            color: #FFB800;
-        }
-
-        .rules ol {
-            text-align: left;
-            padding-left: 20px;
-        }
-
-        .rules ol li {
-            margin: 10px 0;
-            font-size: 1.1rem;
-        }
-
-        /* Video Section */
-        .video-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-            gap: 20px;
-        }
-
-        .video-container video {
-            width: 100%;
-            max-width: 750px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Menu Button */
-        .menu {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: #FFB800;
-            color: #000;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            z-index: 1000;
-        }
-
-        /* Countdown */
-        .countdown {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 20px;
-            color: #FFB800;
-        }
-
-        /* Popup Styles */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #2A2C3D;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            z-index: 1001;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .popup button {
-            background-color: #6200ea;
-            color: #FFF;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .popup button:hover {
-            background-color: #7C4DFF;
-        }
-
-        .popup input, .popup textarea {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
-            background-color: #3B3B5C;
-            color: #FFF;
-        }
-
-        .popup textarea {
-            resize: vertical;
-            height: 100px;
-        }
-
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 999;
-        }
-
-        /* Profile Name */
-        .profile-name {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #FFB800;
-            padding: 10px;
-            border-radius: 5px;
-            color: #000;
-            font-weight: bold;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .video-container video {
-                max-width: 100%;
-            }
-
-            .menu {
-                padding: 8px 12px;
-                top: 10px;
-                left: 10px;
-            }
-
-            .countdown {
-                font-size: 1.5rem;
-            }
-
-            .rules {
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .rules ol li {
-                font-size: 1rem;
-            }
-
-            .popup {
-                width: 95%;
-                padding: 20px;
-            }
-        }
-    </style>
+    <title>Website with Menu</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Hamburger Menu Button -->
-    <div class="menu" onclick="togglePopup('menuPopup')">☰</div>
-
-    <!-- Profile Name (Shows when logged in) -->
-    <div id="profileName" class="profile-name" style="display: none;"></div>
-
-    <!-- Menu Popup -->
-    <div id="menuPopup" class="popup">
-        <button onclick="togglePopup('menuPopup')">X</button>
-        <h2>Menu</h2>
-        <div id="loginMenu">
-            <button onclick="togglePopup('loginPopup')">Login</button>
-            <button onclick="togglePopup('registerPopup')">Register</button>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
         </div>
-        <div id="loggedInMenu" style="display: none;">
-            <button onclick="togglePopup('videosPopup')">Videos</button>
-            <button onclick="togglePopup('reportPopup')">Report</button>
-            <button onclick="togglePopup('unbanPopup')">Unban Request</button>
-            <button onclick="logout()">Logout</button>
+        <div id="menu" class="menu">
+            <ul>
+                <li><a href="#videosSection">Videos</a></li>
+                <li><a href="#" onclick="togglePopup('reportPopup')">Report</a></li>
+                <li><a href="#" onclick="togglePopup('settingsPopup')">Settings</a></li>
+                <li><a href="#" onclick="togglePopup('loginPopup')">Login/Register</a></li>
+                <li><a href="#" onclick="togglePopup('unbanPopup')">Unban Request</a></li>
+            </ul>
         </div>
     </div>
 
-    <!-- Login Popup -->
-    <div id="loginPopup" class="popup">
-        <button onclick="togglePopup('loginPopup')">X</button>
-        <h2>Login</h2>
-        <input type="text" placeholder="Username" id="loginUsername">
-        <input type="password" placeholder="Password" id="loginPassword">
-        <button onclick="login()">Login</button>
-    </div>
-
-    <!-- Register Popup -->
-    <div id="registerPopup" class="popup">
-        <button onclick="togglePopup('registerPopup')">X</button>
-        <h2>Register</h2>
-        <input type="text" placeholder="Username" id="registerUsername">
-        <input type="password" placeholder="Password" id="registerPassword">
-        <button onclick="register()">Register</button>
-    </div>
-
-    <!-- Videos Popup -->
-    <div id="videosPopup" class="popup">
-        <button onclick="togglePopup('videosPopup')">X</button>
+    <!-- Sections -->
+    <section id="videosSection">
         <h2>Videos</h2>
-        <input type="text" placeholder="Video Title" id="videoTitle">
-        <input type="text" placeholder="Video URL" id="videoUrl">
-        <button onclick="postVideo()">Post Video</button>
-        <div class="uploaded-videos" id="uploadedVideos"></div>
-    </div>
+        <p>Scroll through the videos section here...</p>
+    </section>
 
     <!-- Report Popup -->
     <div id="reportPopup" class="popup">
@@ -269,7 +41,7 @@
         <button onclick="submitReport()">Submit</button>
     </div>
 
-    <!-- Unban Popup -->
+    <!-- Unban Request Popup -->
     <div id="unbanPopup" class="popup">
         <button onclick="togglePopup('unbanPopup')">X</button>
         <h2>Unban Request</h2>
@@ -278,124 +50,20 @@
         <button onclick="submitUnbanRequest()">Submit</button>
     </div>
 
-    <!-- Overlay -->
-    <div id="overlay" class="overlay"></div>
+    <!-- Settings Popup -->
+    <div id="settingsPopup" class="popup">
+        <button onclick="togglePopup('settingsPopup')">X</button>
+        <h2>Settings</h2>
+        <p>Change your settings here...</p>
+    </div>
 
-    <header>
-        <h1>Welcome to SKIBIDI SMP</h1>
-        <p>MAXIMA UZDARYTA</p>
-    </header>
+    <!-- Login/Register Popup -->
+    <div id="loginPopup" class="popup">
+        <button onclick="togglePopup('loginPopup')">X</button>
+        <h2>Login/Register</h2>
+        <p>Login or register here...</p>
+    </div>
 
-    <main>
-        <section>
-            <h2>Server Information</h2>
-            <p>Join our Minecraft server at: <strong>SKIBIDI_SMP3.aternos.me:21750</strong></p>
-        </section>
-
-        <!-- Rules Section -->
-        <section class="rules">
-            <h2>Server Rules</h2>
-            <ol>
-                <li>No Spamming.</li>
-                <li>No Advertising.</li>
-                <li>No Constant Cursing.</li>
-                <li>No Banned Items.</li>
-                <li>No Asking for OP, Ranks, or Items.</li>
-                <li>Respect all Players.</li>
-                <li>Obey Staff. They are the Law.</li>
-                <li>No Mods/Hacks.</li>
-                <li>No Full Caps Messages.</li>
-                <li>No 1x1 Towers.</li>
-            </ol>
-        </section>
-
-        <section>
-            <h2>SEASON 3 Countdown</h2>
-            <div class="countdown" id="countdown"></div>
-        </section>
-
-        <section>
-            <h2>Get ready for Season 3</h2>
-            <div class="video-container">
-                <video controls poster="season3.png">
-                    <source src="SEASON3.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        </section>
-
-    </main>
-
-    <footer>
-        <p>&copy; 2025 SKIBIDI SMP. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // Check if user is already logged in
-        const currentUser = localStorage.getItem("currentUser");
-        if (currentUser) {
-            showLoggedInMenu(currentUser);
-        }
-
-        // Toggle Popup Function
-        function togglePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            const overlay = document.getElementById("overlay");
-            if (popup.style.display === "block") {
-                popup.style.display = "none";
-                overlay.style.display = "none";
-            } else {
-                popup.style.display = "block";
-                overlay.style.display = "block";
-            }
-        }
-
-        // Login Function
-        function login() {
-            const username = document.getElementById("loginUsername").value;
-            const password = document.getElementById("loginPassword").value;
-            if (username && password) {
-                const storedPassword = localStorage.getItem(username);
-                if (storedPassword === password) {
-                    localStorage.setItem("currentUser", username);
-                    showLoggedInMenu(username);
-                    togglePopup("loginPopup");
-                } else {
-                    alert("Invalid credentials");
-                }
-            } else {
-                alert("Please enter both username and password");
-            }
-        }
-
-        // Register Function
-        function register() {
-            const username = document.getElementById("registerUsername").value;
-            const password = document.getElementById("registerPassword").value;
-            if (username && password) {
-                localStorage.setItem(username, password);
-                alert("Registration successful! You can now log in.");
-                togglePopup("registerPopup");
-            } else {
-                alert("Please enter both username and password");
-            }
-        }
-
-        // Logout Function
-        function logout() {
-            localStorage.removeItem("currentUser");
-            document.getElementById("profileName").style.display = "none";
-            document.getElementById("loginMenu").style.display = "block";
-            document.getElementById("loggedInMenu").style.display = "none";
-        }
-
-        // Show Logged In Menu
-        function showLoggedInMenu(username) {
-            document.getElementById("profileName").innerText = username;
-            document.getElementById("profileName").style.display = "block";
-            document.getElementById("loginMenu").style.display = "none";
-            document.getElementById("loggedInMenu").style.display = "block";
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
