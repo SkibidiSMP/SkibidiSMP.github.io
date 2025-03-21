@@ -85,7 +85,7 @@
             flex-direction: column;
         }
 
-        input, select {
+        input, select, textarea {
             margin-bottom: 10px;
             padding: 8px;
             border-radius: 5px;
@@ -105,11 +105,11 @@
 <body>
 
     <!-- Hamburger Menu Button -->
-    <div class="menu" onclick="togglePopup()">☰</div>
+    <div class="menu" onclick="togglePopup('popupMenu')">☰</div>
 
     <!-- Popup Menu -->
     <div id="popupMenu" class="popup">
-        <button class="close-btn" onclick="togglePopup()">X</button>
+        <button class="close-btn" onclick="togglePopup('popupMenu')">X</button>
         <h2>Menu</h2>
         <a href="#" onclick="toggleLoginPopup()">Login</a>
         <a href="#" onclick="toggleRegisterPopup()">Register</a>
@@ -144,6 +144,36 @@
         </form>
     </div>
 
+    <!-- Login Popup -->
+    <div id="loginPopup" class="popup">
+        <button class="close-btn" onclick="togglePopup('loginPopup')">X</button>
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="login(event)">
+            <label for="loginEmail">Email:</label>
+            <input type="email" id="loginEmail" name="email" required>
+            
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" name="password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Register Popup -->
+    <div id="registerPopup" class="popup">
+        <button class="close-btn" onclick="togglePopup('registerPopup')">X</button>
+        <h2>Register</h2>
+        <form id="registerForm" onsubmit="register(event)">
+            <label for="registerEmail">Email:</label>
+            <input type="email" id="registerEmail" name="email" required>
+            
+            <label for="registerPassword">Password:</label>
+            <input type="password" id="registerPassword" name="password" required>
+            
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
     <header>
         <h1>Welcome to SKIBIDI SMP</h1>
         <p>MAXIMA UZDARYTA</p>
@@ -175,7 +205,7 @@
 
     <script>
         function togglePopup(popupId) {
-            var popup = document.getElementById(popupId || "popupMenu");
+            var popup = document.getElementById(popupId);
             popup.style.display = (popup.style.display === "block") ? "none" : "block";
         }
 
@@ -209,34 +239,4 @@
                     alert("Report sent successfully!");
                     document.getElementById('reportForm').reset(); // Clear form
                     togglePopup('reportPopup'); // Close the popup
-                } else {
-                    alert("Failed to send report.");
-                }
-            }).catch(error => {
-                console.error("Error:", error);
-                alert("Error sending report.");
-            });
-        }
-
-        function updateCountdown() {
-            const eventDate = new Date("March 21, 2025 17:00:00").getTime();
-            const now = new Date().getTime();
-            const timeLeft = eventDate - now;
-
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-            if (timeLeft < 0) {
-                document.getElementById("countdown").innerHTML = "SEASON 3 HAS BEGUN!";
-            }
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-    </script>
-</body>
-</html>
+                } else
