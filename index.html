@@ -87,24 +87,79 @@
         </section>
 
         <section id="report">
-            <h2>Report a Player</h2>
-            <p>Report a player for breaking the rules.</p>
-            <form action="https://discord.com/api/webhooks/1352628391337263175/ts5K-b9ww1mqfVxN3UlFY0LLeKubiLvtzYj4DkbLq2ZmRBpGNhLUbKrtg3sq5tM0WVVT" method="post">
-                <label for="player">Select Player:</label>
-                <select id="player" name="player">
-                    <option value="geimer126">geimer126</option>
-                    <option value="Volidolis">Volidolis</option>
-                    <option value="Luntikx">Luntikx</option>
-                    <option value="v1xmi">v1xmi</option>
-                    <option value="zubzikas">zubzikas</option>
-                    <option value="hiscookie">hiscookie</option>
-                    <option value="kajuksas69">kajuksas69</option>
-                    <option value="Glyte222">Glyte222</option>
-                    <option value="giedre666">giedre666</option>
-                    <option value="Jemas123x">Jemas123x</option>
-                    <option value="Le_ziurke7">Le_ziurke7</option>
-                </select>
-                <button type="submit">Report</button>
+    <h2>Report a Player</h2>
+    <p>Report a player for breaking the rules.</p>
+
+    <label for="player">Select Player:</label>
+    <select id="player">
+        <option value="geimer126">geimer126</option>
+        <option value="Volidolis">Volidolis</option>
+        <option value="Luntikx">Luntikx</option>
+        <option value="v1xmi">v1xmi</option>
+        <option value="zubzikas">zubzikas</option>
+        <option value="hiscookie">hiscookie</option>
+        <option value="kajuksas69">kajuksas69</option>
+        <option value="Glyte222">Glyte222</option>
+        <option value="giedre666">giedre666</option>
+        <option value="Jemas123x">Jemas123x</option>
+        <option value="Le_ziurke7">Le_ziurke7</option>
+    </select>
+
+    <br><br>
+
+    <label for="reason">What did they do?</label>
+    <textarea id="reason" rows="4" cols="30" placeholder="Describe the rule violation..."></textarea>
+
+    <br><br>
+
+    <button onclick="reportPlayer()">Report</button>
+</section>
+
+<script>
+function reportPlayer() {
+    const player = document.getElementById("player").value;
+    const reason = document.getElementById("reason").value.trim();
+    const webhookURL = "https://discord.com/api/webhooks/1352628391337263175/ts5K-b9ww1mqfVxN3UlFY0LLeKubiLvtzYj4DkbLq2ZmRBpGNhLUbKrtg3sq5tM0WVVT";
+
+    // List of bad words (You can add more words)
+    const badWords = ["nigger", "nigga", "fuck", "shit", "bitch", "dick", "cunt", "asshole", "faggot"];
+
+    // Check if reason contains any bad words
+    for (const word of badWords) {
+        if (reason.toLowerCase().includes(word)) {
+            alert("⚠️ Your report contains inappropriate language. Please remove bad words before submitting.");
+            return;
+        }
+    }
+
+    if (reason === "") {
+        alert("Please describe what the player did.");
+        return;
+    }
+
+    const data = {
+        content: `🚨 **New Report!** 🚨\n👤 **Player:** ${player}\n📝 **Reason:** ${reason}`
+    };
+
+    fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (response.ok) {
+            alert("Report sent successfully!");
+        } else {
+            alert("Failed to send report.");
+        }
+    }).catch(error => {
+        console.error("Error:", error);
+        alert("Error sending report.");
+    });
+
+    // Clear input fields after submitting
+    document.getElementById("reason").value = "";
+}
+</script>
             </form>
         </section>
     </main>
