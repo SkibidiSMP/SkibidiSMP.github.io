@@ -225,10 +225,9 @@
     <!-- Videos Popup -->
     <div id="videosPopup" class="popup">
         <button onclick="togglePopup('videosPopup')">X</button>
-        <h2>Videos</h2>
-        <input type="text" placeholder="Video Title" id="videoTitle">
-        <input type="text" placeholder="Video URL" id="videoUrl">
-        <button onclick="postVideo()">Post Video</button>
+        <h2>Upload and Share a Video</h2>
+        <input type="file" id="videoFile" accept="video/*">
+        <button onclick="uploadVideo()">Upload Video</button>
         <div class="uploaded-videos" id="uploadedVideos"></div>
     </div>
 
@@ -277,7 +276,6 @@
                 <li>Keep your builds within the allowed areas.</li>
                 <li>No hacking or modifying the game client.</li>
                 <li>Don’t abuse server commands.</li>
-                <li>Keep the chat family-friendly.</li>
             </ol>
         </section>
     </main>
@@ -322,21 +320,25 @@
             }
         }
 
-        function postVideo() {
-            var title = document.getElementById('videoTitle').value;
-            var url = document.getElementById('videoUrl').value;
-            var videoContainer = document.getElementById('uploadedVideos');
-            var videoItem = document.createElement('div');
-            videoItem.classList.add('video-item');
-            videoItem.innerHTML = `
-                <h3>${title}</h3>
-                <video controls>
-                    <source src="${url}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            `;
-            videoContainer.appendChild(videoItem);
-            togglePopup('videosPopup');
+        function uploadVideo() {
+            var videoFile = document.getElementById('videoFile').files[0];
+            if (videoFile) {
+                var videoUrl = URL.createObjectURL(videoFile);
+                var videoContainer = document.getElementById('uploadedVideos');
+                var videoItem = document.createElement('div');
+                videoItem.classList.add('video-item');
+                videoItem.innerHTML = `
+                    <h3>${videoFile.name}</h3>
+                    <video controls>
+                        <source src="${videoUrl}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+                videoContainer.appendChild(videoItem);
+                togglePopup('videosPopup');
+            } else {
+                alert('Please select a video file.');
+            }
         }
 
         function submitReport() {
