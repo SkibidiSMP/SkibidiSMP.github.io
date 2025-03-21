@@ -83,13 +83,6 @@
             font-weight: bold;
         }
 
-        /* Countdown */
-        .countdown {
-            font-size: 2em;
-            margin: 20px;
-            font-weight: bold;
-        }
-
         /* Profile Name */
         .profile-name {
             position: absolute;
@@ -100,21 +93,6 @@
             border-radius: 5px;
             color: white;
             font-weight: bold;
-        }
-
-        /* Video Container */
-        .video-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .video-container video {
-            width: 100%;
-            max-width: 750px;
-            border-radius: 10px;
         }
 
         /* Uploaded Videos */
@@ -169,18 +147,13 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .video-container video {
+            .uploaded-videos .video-item {
                 width: 100%;
                 max-width: 100%;
             }
 
             .rules {
                 padding: 15px;
-            }
-
-            .popup {
-                width: 95%;
-                max-width: 95%;
             }
 
             .menu {
@@ -194,17 +167,9 @@
                 right: 5px;
                 padding: 8px;
             }
-
-            .countdown {
-                font-size: 1.5em;
-            }
         }
 
         @media (max-width: 480px) {
-            .countdown {
-                font-size: 1.2em;
-            }
-
             .rules ol {
                 padding-left: 15px;
             }
@@ -299,21 +264,6 @@
             <p>Join our Minecraft server at: <strong>SKIBIDI_SMP3.aternos.me:21750</strong></p>
         </section>
 
-        <section>
-            <h2>SEASON 3 Countdown</h2>
-            <div class="countdown" id="countdown"></div>
-        </section>
-
-        <section>
-            <h2>Get ready for Season 3</h2>
-            <div class="video-container">
-                <video controls width="750" poster="season3.png">
-                    <source src="SEASON3.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        </section>
-
         <!-- Rules Section -->
         <section class="rules">
             <h2>Server Rules</h2>
@@ -322,6 +272,12 @@
                 <li>Respect other players.</li>
                 <li>No cheating or exploiting bugs.</li>
                 <li>Follow the community guidelines.</li>
+                <li>No spamming or advertising.</li>
+                <li>Don’t use offensive language or be toxic.</li>
+                <li>Keep your builds within the allowed areas.</li>
+                <li>No hacking or modifying the game client.</li>
+                <li>Don’t abuse server commands.</li>
+                <li>Keep the chat family-friendly.</li>
             </ol>
         </section>
     </main>
@@ -433,32 +389,6 @@
                 alert('Error submitting unban request!');
             });
         }
-
-        // Countdown Function
-        function startCountdown() {
-            var countDate = new Date("March 30, 2025 00:00:00").getTime();
-            var countdownElement = document.getElementById("countdown");
-
-            setInterval(function() {
-                var now = new Date().getTime();
-                var distance = countDate - now;
-
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-
-                if (distance < 0) {
-                    clearInterval(x);
-                    countdownElement.innerHTML = "EXPIRED";
-                }
-            }, 1000);
-        }
-
-        // Start the countdown
-        startCountdown();
     </script>
 
 </body>
