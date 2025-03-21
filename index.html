@@ -90,18 +90,56 @@
 <body>
 
     <!-- Hamburger Menu Button -->
-    <div class="menu" onclick="togglePopup()">☰</div>
+    <div class="menu" onclick="togglePopup('mainMenu')">☰</div>
 
     <!-- Popup Menu -->
-    <div id="popupMenu" class="popup">
-        <button class="close-btn" onclick="togglePopup()">X</button>
+    <div id="mainMenu" class="popup">
+        <button class="close-btn" onclick="togglePopup('mainMenu')">X</button>
         <h2>Menu</h2>
-        <a href="#videos">Videos</a>
+        <a href="#" onclick="togglePopup('videoPopup')">Videos</a>
         <a href="#" onclick="openReportForm()">Report</a>
-        <a href="#settings">Settings</a>
-        <a href="#login">Login</a>
-        <a href="#verified">Verified</a>
-        <a href="#unban">Unban Request</a>
+        <a href="#" onclick="togglePopup('settingsPopup')">Settings</a>
+        <a href="#" onclick="togglePopup('loginPopup')">Login</a>
+        <a href="#" onclick="togglePopup('unbanPopup')">Unban Request</a>
+    </div>
+
+    <!-- Video Popup -->
+    <div id="videoPopup" class="popup">
+        <button class="close-btn" onclick="togglePopup('videoPopup')">X</button>
+        <h2>Videos</h2>
+        <p>Videos section content here</p>
+        <video controls width="100%" poster="season3.png">
+            <source src="SEASON3.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Report Popup -->
+    <div id="reportPopup" class="popup">
+        <button class="close-btn" onclick="togglePopup('reportPopup')">X</button>
+        <h2>Report</h2>
+        <p>Report a player here</p>
+    </div>
+
+    <!-- Settings Popup -->
+    <div id="settingsPopup" class="popup">
+        <button class="close-btn" onclick="togglePopup('settingsPopup')">X</button>
+        <h2>Settings</h2>
+        <p>Settings options here</p>
+    </div>
+
+    <!-- Login Popup -->
+    <div id="loginPopup" class="popup">
+        <button class="close-btn" onclick="togglePopup('loginPopup')">X</button>
+        <h2>Login</h2>
+        <p>Login form here</p>
+    </div>
+
+    <!-- Unban Request Popup -->
+    <div id="unbanPopup" class="popup">
+        <button class="close-btn" onclick="togglePopup('unbanPopup')">X</button>
+        <h2>Unban Request</h2>
+        <p>Unban request form here</p>
     </div>
 
     <header>
@@ -119,14 +157,6 @@
             <h2>SEASON 3 Countdown</h2>
             <div class="countdown" id="countdown"></div>
         </section>
-
-        <section>
-            <h2>Get ready for Season 3</h2>
-            <video controls width="100%" poster="season3.png">
-                <source src="SEASON3.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </section>
     </main>
 
     <footer>
@@ -134,8 +164,8 @@
     </footer>
 
     <script>
-        function togglePopup() {
-            var popup = document.getElementById("popupMenu");
+        function togglePopup(popupId) {
+            var popup = document.getElementById(popupId);
             popup.style.display = (popup.style.display === "block") ? "none" : "block";
         }
 
