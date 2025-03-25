@@ -1,52 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKIBIDI SMP</title>
+    <title>Minecraft Login System</title>
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #1e1e2e;
-            color: #ffffff;
-            text-align: center;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
         }
 
-        /* Popup Styles */
         .popup {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #2a2a3a;
-            padding: 20px;
+            background-color: white;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            width: 90%;
-            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
         }
 
-        .popup input, .popup textarea {
-            display: block;
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+        }
+
+        input,
+        textarea {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            border: none;
         }
 
-        .popup textarea {
-            resize: vertical;
-            height: 100px;
-        }
-
-        .popup button {
-            background: #6200ea;
+        button {
+            background-color: #6200ea;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -54,239 +55,102 @@
             cursor: pointer;
         }
 
-        .popup button:hover {
-            background: #7c4dff;
+        button:hover {
+            background-color: #3700b3;
         }
 
-        /* Overlay */
-        .overlay {
+        .menu,
+        #loggedInMenu {
+            margin: 20px;
+        }
+
+        #profileName {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #loginMenu {
+            display: block;
+        }
+
+        #loggedInMenu {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
         }
 
-        /* Menu Button */
-        .menu {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #6200ea;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Profile Name */
-        .profile-name {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #6200ea;
-            padding: 10px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Uploaded Videos */
-        .uploaded-videos {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .uploaded-videos .video-item {
-            width: 100%;
-            max-width: 300px;
-            background: #3b3b4f;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: left;
-        }
-
-        .uploaded-videos .video-item video {
-            width: 100%;
-            border-radius: 10px;
-            aspect-ratio: 9/16;
-            object-fit: cover;
-        }
-
-        .uploaded-videos .video-item h3 {
-            margin: 10px 0;
-        }
-
-        /* Rules Section */
-        .rules {
-            margin: 20px auto;
-            padding: 20px;
-            background: #2a2a3a;
-            border-radius: 10px;
-            max-width: 800px;
-            text-align: left;
-        }
-
-        .rules h2 {
+        .popup h2 {
             text-align: center;
         }
 
-        .rules ol {
-            padding-left: 20px;
+        .popup button {
+            width: 100%;
         }
 
-        .rules ol li {
-            margin: 10px 0;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .uploaded-videos .video-item {
-                width: 100%;
-                max-width: 100%;
-            }
-
-            .rules {
-                padding: 15px;
-            }
-
-            .menu {
-                top: 5px;
-                left: 5px;
-                padding: 8px;
-            }
-
-            .profile-name {
-                top: 5px;
-                right: 5px;
-                padding: 8px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .rules ol {
-                padding-left: 15px;
-            }
-
-            .rules ol li {
-                font-size: 0.9em;
-            }
+        .popup input,
+        .popup textarea {
+            width: 95%;
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Hamburger Menu Button -->
-    <div class="menu" onclick="togglePopup('menuPopup')">☰</div>
+    <!-- Overlay -->
+    <div id="overlay"></div>
 
-    <!-- Profile Name (Shows when logged in) -->
-    <div id="profileName" class="profile-name" style="display: none;"></div>
-
-    <!-- Menu Popup -->
-    <div id="menuPopup" class="popup">
-        <button onclick="togglePopup('menuPopup')">X</button>
-        <h2>Menu</h2>
-        <div id="loginMenu">
-            <button onclick="togglePopup('loginPopup')">Login</button>
-            <button onclick="togglePopup('registerPopup')">Register</button>
-        </div>
-        <div id="loggedInMenu" style="display: none;">
-            <button onclick="togglePopup('videosPopup')">Videos</button>
-            <button onclick="togglePopup('reportPopup')">Report</button>
-            <button onclick="togglePopup('unbanPopup')">Unban Request</button>
-            <button onclick="logout()">Logout</button>
-        </div>
-    </div>
-
-    <!-- Login Popup -->
+    <!-- Login Form -->
     <div id="loginPopup" class="popup">
         <button onclick="togglePopup('loginPopup')">X</button>
         <h2>Login</h2>
-        <input type="text" placeholder="Username" id="loginUsername">
-        <input type="password" placeholder="Password" id="loginPassword">
+        <input type="text" id="loginUsername" placeholder="Username" />
+        <input type="password" id="loginPassword" placeholder="Password" />
         <button onclick="login()">Login</button>
     </div>
 
-    <!-- Register Popup -->
+    <!-- Register Form -->
     <div id="registerPopup" class="popup">
         <button onclick="togglePopup('registerPopup')">X</button>
         <h2>Register</h2>
-        <input type="text" placeholder="Username" id="registerUsername">
-        <input type="password" placeholder="Password" id="registerPassword">
+        <input type="text" id="registerUsername" placeholder="Username" />
+        <input type="password" id="registerPassword" placeholder="Password" />
         <button onclick="register()">Register</button>
     </div>
 
-    <!-- Videos Popup -->
-    <div id="videosPopup" class="popup">
-        <button onclick="togglePopup('videosPopup')">X</button>
-        <h2>Upload and Share a Video</h2>
-        <input type="file" id="videoFile" accept="video/*">
-        <button onclick="uploadVideo()">Upload Video</button>
-        <div class="uploaded-videos" id="uploadedVideos"></div>
-    </div>
-
-    <!-- Report Popup -->
+    <!-- Report Form -->
     <div id="reportPopup" class="popup">
         <button onclick="togglePopup('reportPopup')">X</button>
-        <h2>Report</h2>
-        <input type="text" placeholder="Player Name" id="reportPlayer">
-        <input type="text" placeholder="Reason" id="reportReason">
-        <button onclick="submitReport()">Submit</button>
+        <h2>Report Player</h2>
+        <input type="text" id="reportPlayer" placeholder="Player to report" />
+        <textarea id="reportReason" placeholder="Reason for report"></textarea>
+        <button onclick="submitReport()">Submit Report</button>
     </div>
 
-    <!-- Unban Popup -->
+    <!-- Unban Request Form -->
     <div id="unbanPopup" class="popup">
         <button onclick="togglePopup('unbanPopup')">X</button>
         <h2>Unban Request</h2>
-        <input type="text" placeholder="Player Name" id="unbanPlayer">
-        <textarea placeholder="Why should you be unbanned?" id="unbanReason"></textarea>
+        <textarea id="unbanReason" placeholder="Why should you be unbanned?"></textarea>
         <button onclick="submitUnbanRequest()">Submit</button>
     </div>
 
-    <!-- Overlay -->
-    <div id="overlay" class="overlay"></div>
+    <!-- Profile & Menus -->
+    <div id="loginMenu" class="menu">
+        <button onclick="togglePopup('loginPopup')">Login</button>
+        <button onclick="togglePopup('registerPopup')">Register</button>
+    </div>
 
-    <header>
-        <h1>Welcome to SKIBIDI SMP</h1>
-        <p>MAXIMA UZDARYTA</p>
-    </header>
-
-    <main>
-        <section>
-            <h2>Server Information</h2>
-            <p>Join our Minecraft server at: <strong>SKIBIDI_SMP3.aternos.me:21750</strong></p>
-        </section>
-
-        <!-- Rules Section -->
-        <section class="rules">
-            <h2>Server Rules</h2>
-            <ol>
-                <li>No griefing or stealing.</li>
-                <li>Respect other players.</li>
-                <li>No cheating or exploiting bugs.</li>
-                <li>Follow the community guidelines.</li>
-                <li>No spamming or advertising.</li>
-                <li>Don’t use offensive language or be toxic.</li>
-                <li>Keep your builds within the allowed areas.</li>
-                <li>No hacking or modifying the game client.</li>
-                <li>Don’t abuse server commands.</li>
-                <li>Keep the chat family-friendly.</li>
-            </ol>
-        </section>
-    </main>
+    <div id="loggedInMenu" class="menu">
+        <span id="profileName" style="display: none;"></span>
+        <button onclick="logout()">Logout</button>
+        <button onclick="togglePopup('reportPopup')">Report</button>
+        <button onclick="togglePopup('unbanPopup')">Unban Request</button>
+    </div>
 
     <script>
         const allowedUsernames = [
             "geimer126", "Volidolis", "Luntikx", "v1xmi", "zubzikas",
             "hiscookie", "kajuksas69", "Glyte222", "Jemas123x", "Le_ziurke7"
         ];
-        
+
         const registeredUsers = {}; // Stores registered usernames and passwords
 
         function togglePopup(popupId) {
@@ -304,7 +168,7 @@
                 alert(`You need permission to be whitelisted. Join: https://discord.gg/QrcvUuvJQU`);
                 return;
             }
-            
+
             if (registeredUsers[username]) {
                 alert("This username is already registered!");
                 return;
@@ -314,7 +178,7 @@
                 alert("Password must be at least 6 characters long.");
                 return;
             }
-            
+
             registeredUsers[username] = password;
             alert("Registration successful!");
             togglePopup('registerPopup');
@@ -323,22 +187,22 @@
         function login() {
             let username = document.getElementById('loginUsername').value;
             let password = document.getElementById('loginPassword').value;
-            
+
             if (!allowedUsernames.includes(username)) {
                 alert("You need permission to be whitelisted. Join: https://discord.gg/QrcvUuvJQU");
                 return;
             }
-            
+
             if (!registeredUsers[username]) {
                 alert("This username is not registered!");
                 return;
             }
-            
+
             if (registeredUsers[username] !== password) {
                 alert("Incorrect password!");
                 return;
             }
-            
+
             document.getElementById('profileName').textContent = 'Logged in as: ' + username;
             document.getElementById('profileName').style.display = 'block';
             togglePopup('loginPopup');
@@ -362,12 +226,12 @@
             let player = document.getElementById('reportPlayer').value;
             let reason = document.getElementById('reportReason').value;
             let reporter = document.getElementById('profileName').textContent.replace('Logged in as: ', '');
-            
+
             if (containsBadWords(reason)) {
                 alert("⚠️ If you type this message, you will be banned for 15 minutes! ⚠️");
                 return;
             }
-            
+
             let message = `🚨 New Report! 🚨\n👤 Reporter: ${reporter}\n👤 Reported: ${player}\n📝 Reason: ${reason}`;
             sendToDiscord(message);
             alert('Report submitted successfully!');
@@ -375,16 +239,15 @@
         }
 
         function submitUnbanRequest() {
-            let player = document.getElementById('unbanPlayer').value;
             let reason = document.getElementById('unbanReason').value;
             let requester = document.getElementById('profileName').textContent.replace('Logged in as: ', '');
-            
+
             if (containsBadWords(reason)) {
                 alert("⚠️ If you type this message, you will be banned for 15 minutes! ⚠️");
                 return;
             }
-            
-            let message = `🚨 Unban Request 🚨\n👤 Account: ${requester}\n👤 Player: ${player}\n📝 Reason: ${reason}`;
+
+            let message = `🚨 Unban Request 🚨\n👤 Account: ${requester}\n📝 Reason: ${reason}`;
             sendToDiscord(message);
             alert('Unban request submitted successfully!');
             togglePopup('unbanPopup');
@@ -397,26 +260,8 @@
                 body: JSON.stringify({ content: message })
             }).catch(error => alert('Error sending data!'));
         }
-
-        function uploadVideo() {
-            let videoFile = document.getElementById('videoFile').files[0];
-            if (!videoFile) {
-                alert("Please select a video file.");
-                return;
-            }
-            
-            let videoItem = document.createElement('div');
-            videoItem.classList.add('video-item');
-            let videoElement = document.createElement('video');
-            videoElement.src = URL.createObjectURL(videoFile);
-            videoElement.controls = true;
-            videoItem.appendChild(videoElement);
-            let videoTitle = document.createElement('h3');
-            videoTitle.textContent = videoFile.name;
-            videoItem.appendChild(videoTitle);
-            document.getElementById('uploadedVideos').appendChild(videoItem);
-        }
     </script>
 
 </body>
+
 </html>
