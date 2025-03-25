@@ -286,7 +286,7 @@
             "hiscookie", "kajuksas69", "Glyte222", "Jemas123x", "Le_ziurke7"
         ];
 
-        const registeredUsers = {}; // Stores registered usernames and passwords
+        const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || {};
 
         function togglePopup(popupId) {
             let popup = document.getElementById(popupId);
@@ -315,6 +315,7 @@
             }
 
             registeredUsers[username] = password;
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
             alert("Registration successful!");
             togglePopup('registerPopup');
         }
@@ -338,6 +339,7 @@
                 return;
             }
 
+            localStorage.setItem('loggedInUser', username);
             document.getElementById('profileName').textContent = 'Logged in as: ' + username;
             document.getElementById('profileName').style.display = 'block';
             togglePopup('loginPopup');
@@ -346,6 +348,7 @@
         }
 
         function logout() {
+            localStorage.removeItem('loggedInUser');
             document.getElementById('profileName').style.display = 'none';
             document.getElementById('loginMenu').style.display = 'block';
             document.getElementById('loggedInMenu').style.display = 'none';
@@ -410,8 +413,33 @@
                 videoItem.appendChild(videoElement);
                 videoItem.appendChild(videoTitle);
                 uploadedVideos.appendChild(videoItem);
+
+                // Store the video data in localStorage
+                let videos = JSON.parse(localStorage.getItem('videos')) || [];
+                videos.push(URL.createObjectURL(videoFile));
+                localStorage.setItem('videos', JSON.stringify(videos));
             }
         }
+
+        function loadVideos() {
+            let videos = JSON.parse(localStorage.getItem('videos')) || [];
+            let uploadedVideos = document.getElementById('uploadedVideos');
+            videos.forEach(videoSrc => {
+                let videoItem = document.createElement('div');
+                videoItem.classList.add('video-item');
+                let videoElement = document.createElement('video');
+                videoElement.controls = true;
+                videoElement.src = videoSrc;
+                let videoTitle = document.createElement('h3');
+                videoTitle.textContent = 'Uploaded Video';
+                videoItem.appendChild(videoElement);
+                videoItem.appendChild(videoTitle);
+                uploadedVideos.appendChild(videoItem);
+            });
+        }
+
+        // Load videos on page load
+        window.onload = loadVideos;
     </script>
 </body>
 </html>
