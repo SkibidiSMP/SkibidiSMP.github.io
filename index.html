@@ -283,163 +283,82 @@
     <script>
         const allowedUsernames = [
             "geimer126", "Volidolis", "Luntikx", "v1xmi", "zubzikas",
-            "hiscookie", "kajuksas69", "Glyte222", "Jemas123x", "Le_ziurke7"
+            "hiscookie", "kajuksas69", "Glyte222", "Jemas123x", "Le_zi", "Gokux", "xxjogo"
         ];
+        let loggedInUsername = null;
 
-        const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || {};
-
+        // Toggle visibility of the popup
         function togglePopup(popupId) {
-            let popup = document.getElementById(popupId);
-            let overlay = document.getElementById('overlay');
-            popup.style.display = popup.style.display === "block" ? "none" : "block";
-            overlay.style.display = popup.style.display;
+            const popup = document.getElementById(popupId);
+            const overlay = document.getElementById('overlay');
+            if (popup.style.display === 'none' || popup.style.display === '') {
+                popup.style.display = 'block';
+                overlay.style.display = 'block';
+            } else {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+            }
         }
 
-        function register() {
-            let username = document.getElementById('registerUsername').value;
-            let password = document.getElementById('registerPassword').value;
-
-            if (!allowedUsernames.includes(username)) {
-                alert(`You need permission to be whitelisted. Join: https://discord.gg/egjJvNtbak`);
-                return;
-            }
-
-            if (registeredUsers[username]) {
-                alert("This username is already registered!");
-                return;
-            }
-
-            if (password.length < 6) {
-                alert("Password must be at least 6 characters long.");
-                return;
-            }
-
-            registeredUsers[username] = password;
-            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-            alert("Registration successful!");
-            togglePopup('registerPopup');
-        }
-
+        // Handle Login
         function login() {
-            let username = document.getElementById('loginUsername').value;
-            let password = document.getElementById('loginPassword').value;
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
 
-            if (!allowedUsernames.includes(username)) {
-                alert("You need permission to be whitelisted. Join: https://discord.gg/egjJvNtbak");
-                return;
+            if (allowedUsernames.includes(username)) {
+                loggedInUsername = username;
+                document.getElementById('profileName').innerText = `Hello, ${username}`;
+                document.getElementById('profileName').style.display = 'block';
+                document.getElementById('loginMenu').style.display = 'none';
+                document.getElementById('loggedInMenu').style.display = 'block';
+                togglePopup('loginPopup');
+            } else {
+                alert('Invalid username or password.');
             }
-
-            if (!registeredUsers[username]) {
-                alert("This username is not registered!");
-                return;
-            }
-
-            if (registeredUsers[username] !== password) {
-                alert("Incorrect password!");
-                return;
-            }
-
-            localStorage.setItem('loggedInUser', username);
-            document.getElementById('profileName').textContent = 'Logged in as: ' + username;
-            document.getElementById('profileName').style.display = 'block';
-            togglePopup('loginPopup');
-            document.getElementById('loginMenu').style.display = 'none';
-            document.getElementById('loggedInMenu').style.display = 'block';
         }
 
+        // Handle Register
+        function register() {
+            alert('Registration feature is not available yet.');
+        }
+
+        // Handle Logout
         function logout() {
-            localStorage.removeItem('loggedInUser');
+            loggedInUsername = null;
             document.getElementById('profileName').style.display = 'none';
             document.getElementById('loginMenu').style.display = 'block';
             document.getElementById('loggedInMenu').style.display = 'none';
         }
 
-        const badWords = ["badword1", "badword2", "badword3"]; // Replace with actual bad words
-
-        function containsBadWords(text) {
-            return badWords.some(word => text.toLowerCase().includes(word));
-        }
-
-        function submitReport() {
-            let player = document.getElementById('reportPlayer').value;
-            let reason = document.getElementById('reportReason').value;
-            let reporter = document.getElementById('profileName').textContent.replace('Logged in as: ', '');
-
-            if (containsBadWords(reason)) {
-                alert("⚠️ If you type this message, you will be banned for 15 minutes! ⚠️");
-                return;
-            }
-
-            let message = `🚨 New Report! 🚨\n👤 Reporter: ${reporter}\n👤 Reported: ${player}\n📝 Reason: ${reason}`;
-            sendToDiscord(message);
-            alert('Report submitted successfully!');
-            togglePopup('reportPopup');
-        }
-
-        function submitUnbanRequest() {
-            let reason = document.getElementById('unbanReason').value;
-            let requester = document.getElementById('profileName').textContent.replace('Logged in as: ', '');
-
-            if (containsBadWords(reason)) {
-                alert("⚠️ If you type this message, you will be banned for 15 minutes! ⚠️");
-                return;
-            }
-
-            let message = `🚨 Unban Request 🚨\n👤 Account: ${requester}\n📝 Reason: ${reason}`;
-            sendToDiscord(message);
-            alert('Unban request submitted successfully!');
-            togglePopup('unbanPopup');
-        }
-
-        function sendToDiscord(message) {
-            fetch('https://discord.com/api/webhooks/1358490148249276467/mQ6jv_Adhdq0MXcmXb6lDuLivl8wGEtWQst6Y56ki4BKOV-cZ9_ltbBj5eu8Fak9fxpe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: message })
-            }).catch(error => alert('Error sending data!'));
-        }
-
+        // Handle Video Upload
         function uploadVideo() {
-            let videoFile = document.getElementById('videoFile').files[0];
+            const videoFile = document.getElementById('videoFile').files[0];
             if (videoFile) {
-                let uploadedVideos = document.getElementById('uploadedVideos');
-                let videoItem = document.createElement('div');
+                const videoItem = document.createElement('div');
                 videoItem.classList.add('video-item');
-                let videoElement = document.createElement('video');
-                videoElement.controls = true;
-                videoElement.src = URL.createObjectURL(videoFile);
-                let videoTitle = document.createElement('h3');
-                videoTitle.textContent = videoFile.name;
-                videoItem.appendChild(videoElement);
-                videoItem.appendChild(videoTitle);
-                uploadedVideos.appendChild(videoItem);
-
-                // Store the video data in localStorage
-                let videos = JSON.parse(localStorage.getItem('videos')) || [];
-                videos.push(URL.createObjectURL(videoFile));
-                localStorage.setItem('videos', JSON.stringify(videos));
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(videoFile);
+                video.controls = true;
+                videoItem.appendChild(video);
+                const title = document.createElement('h3');
+                title.innerText = videoFile.name;
+                videoItem.appendChild(title);
+                document.getElementById('uploadedVideos').appendChild(videoItem);
             }
         }
 
-        function loadVideos() {
-            let videos = JSON.parse(localStorage.getItem('videos')) || [];
-            let uploadedVideos = document.getElementById('uploadedVideos');
-            videos.forEach(videoSrc => {
-                let videoItem = document.createElement('div');
-                videoItem.classList.add('video-item');
-                let videoElement = document.createElement('video');
-                videoElement.controls = true;
-                videoElement.src = videoSrc;
-                let videoTitle = document.createElement('h3');
-                videoTitle.textContent = 'Uploaded Video';
-                videoItem.appendChild(videoElement);
-                videoItem.appendChild(videoTitle);
-                uploadedVideos.appendChild(videoItem);
-            });
+        // Submit Report
+        function submitReport() {
+            const playerName = document.getElementById('reportPlayer').value;
+            const reason = document.getElementById('reportReason').value;
+            alert(`Report for ${playerName}: ${reason}`);
         }
 
-        // Load videos on page load
-        window.onload = loadVideos;
+        // Submit Unban Request
+        function submitUnbanRequest() {
+            const reason = document.getElementById('unbanReason').value;
+            alert(`Unban request: ${reason}`);
+        }
     </script>
 </body>
 </html>
