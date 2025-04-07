@@ -211,6 +211,7 @@
         <input type="text" placeholder="Username" id="loginUsername">
         <input type="password" placeholder="Password" id="loginPassword">
         <button onclick="login()">Login</button>
+        <p id="loginError" style="color: red; display: none;">Invalid username or password!</p>
     </div>
 
     <!-- Register Popup -->
@@ -220,6 +221,8 @@
         <input type="text" placeholder="Username" id="registerUsername">
         <input type="password" placeholder="Password" id="registerPassword">
         <button onclick="register()">Register</button>
+        <p id="registerSuccess" style="color: green; display: none;">Registration successful! You can now log in.</p>
+        <p id="registerError" style="color: red; display: none;">Username already exists.</p>
     </div>
 
     <!-- Videos Popup -->
@@ -281,11 +284,9 @@
     </main>
 
     <script>
-        const allowedUsernames = [
-            "geimer126", "Volidolis", "Luntikx", "v1xmi", "zubzikas",
-            "hiscookie", "kajuksas69", "Glyte222", "Jemas123x", "Le_zi", "Gokux", "xxjogo"
-        ];
+        const allowedUsernames = {};
         let loggedInUsername = null;
+        const uploadedVideos = [];
 
         // Toggle visibility of the popup
         function togglePopup(popupId) {
@@ -300,12 +301,24 @@
             }
         }
 
+        // Handle Registration
+        function register() {
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            if (allowedUsernames[username]) {
+                document.getElementById('registerError').style.display = 'block';
+            } else {
+                allowedUsernames[username] = password;
+                document.getElementById('registerSuccess').style.display = 'block';
+                document.getElementById('registerError').style.display = 'none';
+            }
+        }
+
         // Handle Login
         function login() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
-
-            if (allowedUsernames.includes(username)) {
+            if (allowedUsernames[username] && allowedUsernames[username] === password) {
                 loggedInUsername = username;
                 document.getElementById('profileName').innerText = `Hello, ${username}`;
                 document.getElementById('profileName').style.display = 'block';
@@ -313,13 +326,8 @@
                 document.getElementById('loggedInMenu').style.display = 'block';
                 togglePopup('loginPopup');
             } else {
-                alert('Invalid username or password.');
+                document.getElementById('loginError').style.display = 'block';
             }
-        }
-
-        // Handle Register
-        function register() {
-            alert('Registration feature is not available yet.');
         }
 
         // Handle Logout
@@ -343,8 +351,18 @@
                 const title = document.createElement('h3');
                 title.innerText = videoFile.name;
                 videoItem.appendChild(title);
-                document.getElementById('uploadedVideos').appendChild(videoItem);
+                uploadedVideos.push(videoItem);
+                displayVideos();
             }
+        }
+
+        // Display Uploaded Videos
+        function displayVideos() {
+            const uploadedVideosContainer = document.getElementById('uploadedVideos');
+            uploadedVideosContainer.innerHTML = '';
+            uploadedVideos.forEach(videoItem => {
+                uploadedVideosContainer.appendChild(videoItem);
+            });
         }
 
         // Submit Report
